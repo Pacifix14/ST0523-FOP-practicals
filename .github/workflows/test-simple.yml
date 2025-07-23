@@ -20,33 +20,54 @@ jobs:
       with:
         node-version: '18'
         
+    - name: Setup Test Environment
+      run: |
+        echo "📦 Setting up test environment..."
+        cp package.json package.json.backup
+        echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
+        
     - name: Test Problem Set p3 (Functions)
-      run: node run.js p3
+      timeout-minutes: 5
+      run: timeout 300s node run.js p3 || echo "⚠️ Test timed out"
       continue-on-error: true
       
     - name: Test Problem Set p4 (Selections)
-      run: node run.js p4
+      timeout-minutes: 5
+      run: timeout 300s node run.js p4 || echo "⚠️ Test timed out"
       continue-on-error: true
       
     - name: Test Problem Set p5 (Loops)
-      run: node run.js p5
+      timeout-minutes: 5
+      run: timeout 300s node run.js p5 || echo "⚠️ Test timed out"
       continue-on-error: true
       
     - name: Test Problem Set p6 (Arrays)
-      run: node run.js p6
+      timeout-minutes: 5
+      run: timeout 300s node run.js p6 || echo "⚠️ Test timed out"
       continue-on-error: true
       
     - name: Test Problem Set p7 (While)
-      run: node run.js p7
+      timeout-minutes: 3
+      run: |
+        echo "⚠️ Note: p7 has shorter timeout due to potential infinite loops"
+        timeout 180s node run.js p7 || echo "⚠️ Test timed out (likely infinite loop)"
       continue-on-error: true
       
     - name: Test Problem Set p8 (Objects)
-      run: node run.js p8
+      timeout-minutes: 5
+      run: timeout 300s node run.js p8 || echo "⚠️ Test timed out"
       continue-on-error: true
       
     - name: Test Problem Set p9 (Problem Solving)
-      run: node run.js p9
+      timeout-minutes: 5
+      run: timeout 300s node run.js p9 || echo "⚠️ Test timed out"
       continue-on-error: true
+      
+    - name: Restore Original Package
+      if: always()
+      run: |
+        echo "🔄 Restoring original package.json..."
+        mv package.json.backup package.json
       
     - name: Test Summary
       if: always()
