@@ -22,11 +22,10 @@ jobs:
         cp package.json package.json.backup
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
     - name: Run Functions Tests
-      timeout-minutes: 5
+      timeout-minutes: 6
       run: |
         echo "🔍 Testing Problem Set 3 (Functions)..."
-        timeout 300s node run.js p3 || echo "⚠️ Test timed out after 5 minutes"
-        echo "✅ Functions tests completed"
+        timeout 300s node run.js p3 && echo "✅ Functions tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
     - name: Restore Original Package
       if: always()
       run: |
@@ -47,11 +46,10 @@ jobs:
         cp package.json package.json.backup
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
     - name: Run Selections Tests
-      timeout-minutes: 5
+      timeout-minutes: 6
       run: |
         echo "🔍 Testing Problem Set 4 (Selections/If-else)..."
-        timeout 300s node run.js p4 || echo "⚠️ Test timed out after 5 minutes"
-        echo "✅ Selections tests completed"
+        timeout 300s node run.js p4 && echo "✅ Selections tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
     - name: Restore Original Package
       if: always()
       run: |
@@ -72,11 +70,10 @@ jobs:
         cp package.json package.json.backup
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
     - name: Run Loops Tests
-      timeout-minutes: 5
+      timeout-minutes: 6
       run: |
         echo "🔍 Testing Problem Set 5 (For-Loops)..."
-        timeout 300s node run.js p5 || echo "⚠️ Test timed out after 5 minutes"
-        echo "✅ Loops tests completed"
+        timeout 300s node run.js p5 && echo "✅ Loops tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
     - name: Restore Original Package
       if: always()
       run: |
@@ -97,11 +94,10 @@ jobs:
         cp package.json package.json.backup
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
     - name: Run Arrays Tests
-      timeout-minutes: 5
+      timeout-minutes: 6
       run: |
         echo "🔍 Testing Problem Set 6 (Arrays)..."
-        timeout 300s node run.js p6 || echo "⚠️ Test timed out after 5 minutes"
-        echo "✅ Arrays tests completed"
+        timeout 300s node run.js p6 && echo "✅ Arrays tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
     - name: Restore Original Package
       if: always()
       run: |
@@ -125,9 +121,9 @@ jobs:
       timeout-minutes: 3
       run: |
         echo "🔍 Testing Problem Set 7 (While & Nested loops)..."
-        echo "⚠️ Note: This test has a shorter timeout due to potential infinite loops"
-        timeout 180s node run.js p7 || echo "⚠️ Test timed out after 3 minutes (likely infinite loop in while loop questions)"
-        echo "✅ While tests completed"
+        echo "⚠️ Note: Using 2-minute timeout to prevent infinite loops"
+        echo "If this times out, check your while loop conditions!"
+        timeout 120s node run.js p7 && echo "✅ While tests completed successfully!" || echo "⚠️ p7 tests timed out after 2 minutes - likely infinite loop in while questions"
     - name: Restore Original Package
       if: always()
       run: |
@@ -148,11 +144,10 @@ jobs:
         cp package.json package.json.backup
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
     - name: Run Objects Tests
-      timeout-minutes: 5
+      timeout-minutes: 6
       run: |
         echo "🔍 Testing Problem Set 8 (Objects)..."
-        timeout 300s node run.js p8 || echo "⚠️ Test timed out after 5 minutes"
-        echo "✅ Objects tests completed"
+        timeout 300s node run.js p8 && echo "✅ Objects tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
     - name: Restore Original Package
       if: always()
       run: |
@@ -173,11 +168,10 @@ jobs:
         cp package.json package.json.backup
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
     - name: Run Problem Solving Tests
-      timeout-minutes: 5
+      timeout-minutes: 6
       run: |
         echo "🔍 Testing Problem Set 9 (Problem Solving)..."
-        timeout 300s node run.js p9 || echo "⚠️ Test timed out after 5 minutes"
-        echo "✅ Problem solving tests completed"
+        timeout 300s node run.js p9 && echo "✅ Problem solving tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
     - name: Restore Original Package
       if: always()
       run: |
@@ -194,14 +188,18 @@ jobs:
       run: |
         echo "# 📊 Test Results Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "| Problem Set | Status |" >> $GITHUB_STEP_SUMMARY
-        echo "|-------------|--------|" >> $GITHUB_STEP_SUMMARY
-        echo "| p3 (Functions) | ${{ needs.test-functions.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| p4 (Selections) | ${{ needs.test-selections.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| p5 (Loops) | ${{ needs.test-loops.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| p6 (Arrays) | ${{ needs.test-arrays.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| p7 (While) | ${{ needs.test-while.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| p8 (Objects) | ${{ needs.test-objects.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-        echo "| p9 (Problem Solving) | ${{ needs.test-problem-solving.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Problem Set | Status | Notes |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------------|--------|-------|" >> $GITHUB_STEP_SUMMARY
+        echo "| p3 (Functions) | ${{ needs.test-functions.result == 'success' && '✅ Passed' || '❌ Failed' }} | - |" >> $GITHUB_STEP_SUMMARY
+        echo "| p4 (Selections) | ${{ needs.test-selections.result == 'success' && '✅ Passed' || '❌ Failed' }} | - |" >> $GITHUB_STEP_SUMMARY
+        echo "| p5 (Loops) | ${{ needs.test-loops.result == 'success' && '✅ Passed' || '❌ Failed' }} | - |" >> $GITHUB_STEP_SUMMARY
+        echo "| p6 (Arrays) | ${{ needs.test-arrays.result == 'success' && '✅ Passed' || '❌ Failed' }} | - |" >> $GITHUB_STEP_SUMMARY
+        echo "| p7 (While) | ${{ needs.test-while.result == 'success' && '✅ Passed' || '⚠️ Timeout/Failed' }} | 2-min timeout for infinite loops |" >> $GITHUB_STEP_SUMMARY
+        echo "| p8 (Objects) | ${{ needs.test-objects.result == 'success' && '✅ Passed' || '❌ Failed' }} | - |" >> $GITHUB_STEP_SUMMARY
+        echo "| p9 (Problem Solving) | ${{ needs.test-problem-solving.result == 'success' && '✅ Passed' || '❌ Failed' }} | - |" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "*Note: p1 (Introduction) and p2 (Operators) are skipped as they cannot be executed with the test runner.*" >> $GITHUB_STEP_SUMMARY 
+        echo "**📝 Important Notes:**" >> $GITHUB_STEP_SUMMARY
+        echo "- p1 (Introduction) and p2 (Operators) are skipped as they cannot be executed with the test runner" >> $GITHUB_STEP_SUMMARY
+        echo "- p7 timeouts usually indicate infinite loops in while loop questions" >> $GITHUB_STEP_SUMMARY
+        echo "- Check individual job logs above for detailed test case results" >> $GITHUB_STEP_SUMMARY
+        echo "- Tests run against your questions folder, not the solution folder" >> $GITHUB_STEP_SUMMARY 
