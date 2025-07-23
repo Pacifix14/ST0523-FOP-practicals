@@ -1,0 +1,56 @@
+name: Test All Questions (Simple)
+
+on:
+  push:
+    branches: [ main, master, feat/*, dev, develop ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-all-questions:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Test Problem Set p3 (Functions)
+      run: node run.js p3
+      continue-on-error: true
+      
+    - name: Test Problem Set p4 (Selections)
+      run: node run.js p4
+      continue-on-error: true
+      
+    - name: Test Problem Set p5 (Loops)
+      run: node run.js p5
+      continue-on-error: true
+      
+    - name: Test Problem Set p6 (Arrays)
+      run: node run.js p6
+      continue-on-error: true
+      
+    - name: Test Problem Set p7 (While)
+      run: node run.js p7
+      continue-on-error: true
+      
+    - name: Test Problem Set p8 (Objects)
+      run: node run.js p8
+      continue-on-error: true
+      
+    - name: Test Problem Set p9 (Problem Solving)
+      run: node run.js p9
+      continue-on-error: true
+      
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "All problem sets (p3-p9) have been tested."
+        echo "Check individual step results above for details."
+        echo "Note: Tests continue even if some fail to show all results." 

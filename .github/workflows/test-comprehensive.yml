@@ -1,0 +1,129 @@
+name: Comprehensive Test Suite
+
+on:
+  push:
+    branches: [ main, master, feat/*, dev, develop ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-functions:
+    name: "Test p3 (Functions)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run Functions Tests
+      run: |
+        echo "🔍 Testing Problem Set 3 (Functions)..."
+        node run.js p3
+        echo "✅ Functions tests completed"
+
+  test-selections:
+    name: "Test p4 (Selections)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run Selections Tests
+      run: |
+        echo "🔍 Testing Problem Set 4 (Selections/If-else)..."
+        node run.js p4
+        echo "✅ Selections tests completed"
+
+  test-loops:
+    name: "Test p5 (Loops)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run Loops Tests
+      run: |
+        echo "🔍 Testing Problem Set 5 (For-Loops)..."
+        node run.js p5
+        echo "✅ Loops tests completed"
+
+  test-arrays:
+    name: "Test p6 (Arrays)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run Arrays Tests
+      run: |
+        echo "🔍 Testing Problem Set 6 (Arrays)..."
+        node run.js p6
+        echo "✅ Arrays tests completed"
+
+  test-while:
+    name: "Test p7 (While)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run While Tests
+      run: |
+        echo "🔍 Testing Problem Set 7 (While & Nested loops)..."
+        node run.js p7
+        echo "✅ While tests completed"
+
+  test-objects:
+    name: "Test p8 (Objects)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run Objects Tests
+      run: |
+        echo "🔍 Testing Problem Set 8 (Objects)..."
+        node run.js p8
+        echo "✅ Objects tests completed"
+
+  test-problem-solving:
+    name: "Test p9 (Problem Solving)"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Run Problem Solving Tests
+      run: |
+        echo "🔍 Testing Problem Set 9 (Problem Solving)..."
+        node run.js p9
+        echo "✅ Problem solving tests completed"
+
+  summary:
+    name: "Test Results Summary"
+    runs-on: ubuntu-latest
+    needs: [test-functions, test-selections, test-loops, test-arrays, test-while, test-objects, test-problem-solving]
+    if: always()
+    steps:
+    - name: Create Summary
+      run: |
+        echo "# 📊 Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Problem Set | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-------------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| p3 (Functions) | ${{ needs.test-functions.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| p4 (Selections) | ${{ needs.test-selections.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| p5 (Loops) | ${{ needs.test-loops.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| p6 (Arrays) | ${{ needs.test-arrays.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| p7 (While) | ${{ needs.test-while.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| p8 (Objects) | ${{ needs.test-objects.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| p9 (Problem Solving) | ${{ needs.test-problem-solving.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "*Note: p1 (Introduction) and p2 (Operators) are skipped as they cannot be executed with the test runner.*" >> $GITHUB_STEP_SUMMARY 
