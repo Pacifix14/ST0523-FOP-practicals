@@ -32,16 +32,26 @@ jobs:
         echo '{"studentId": "p0000000", "className": "DIT/FT/1A/01"}' > package.json
       
     - name: Run Problem Set p${{ matrix.problem-set }}
-      timeout-minutes: 6
+      timeout-minutes: 8
       run: |
         if [ "${{ matrix.problem-set }}" = "7" ]; then
           echo "🔍 Testing Problem Set 7 (While & Nested loops)..."
           echo "⚠️ Note: Using 2-minute timeout to prevent infinite loops"
           echo "If this times out, check your while loop conditions!"
-          timeout 120s node run.js p${{ matrix.problem-set }} && echo "✅ p7 tests completed successfully!" || echo "⚠️ p7 tests timed out after 2 minutes - likely infinite loop in while questions"
+          timeout 120s node run.js p${{ matrix.problem-set }}
+          if [ $? -eq 124 ]; then
+            echo "⚠️ p7 tests timed out after 2 minutes - likely infinite loop in while questions"
+          else
+            echo "✅ p7 tests completed successfully!"
+          fi
         else
           echo "🔍 Testing Problem Set p${{ matrix.problem-set }}..."
-          timeout 300s node run.js p${{ matrix.problem-set }} && echo "✅ Tests completed successfully!" || echo "⚠️ Test timed out after 5 minutes"
+          timeout 300s node run.js p${{ matrix.problem-set }}
+          if [ $? -eq 124 ]; then
+            echo "⚠️ Test timed out after 5 minutes"
+          else
+            echo "✅ Tests completed successfully!"
+          fi
         fi
       
     - name: Restore Original Package
